@@ -1,8 +1,8 @@
-package com.nobroker.reposiotry;
+package com.nobroker.Repository;
 
 import com.nobroker.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserReposioty  extends JpaRepository<User,Long> {
+public interface UserRepository  extends JpaRepository<User,Long> {
     User findByEmail(String email );
 }
