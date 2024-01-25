@@ -1,19 +1,22 @@
 package com.nobroker.service.impl;
 
+import com.nobroker.Repository.UserRepository;
 import com.nobroker.entity.User;
 import com.nobroker.payload.UserDto;
-import com.nobroker.reposiotry.UserReposioty;
 import com.nobroker.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserReposioty userReposioty;
+    private UserRepository userReposioty;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -41,6 +44,13 @@ public class UserServiceImpl implements UserService {
     public boolean verifyEmail(String email) {
         User byEmail = userReposioty.findByEmail(email);
         return byEmail !=null && byEmail.isEmailVerified() ;
+    }
+    @Override
+    public List<UserDto> getAllUsers() {
+
+        List<User> all = userReposioty.findAll();
+        List<UserDto> collect = all.stream().map(c -> mapToDto(c)).collect(Collectors.toList());
+        return collect;
     }
 
     User mapTOEntity(UserDto userDto){
