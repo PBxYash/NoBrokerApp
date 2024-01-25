@@ -1,8 +1,8 @@
 package com.nobroker.service.impl;
 
+import com.nobroker.Repository.UserRepository;
 import com.nobroker.entity.User;
 import com.nobroker.payload.UserDto;
-import com.nobroker.reposiotry.UserReposioty;
 import com.nobroker.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserReposioty userReposioty;
+    private UserRepository userReposioty;
 
     @Autowired
     private ModelMapper modelMapper;
