@@ -1,6 +1,6 @@
 package com.nobroker.payload;
 
-import com.nobroker.entity.SubscriptionDuration;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +26,12 @@ public class OwnerPlanDto {
 
     private LocalDateTime subscriptionExpirationDate;
 
+    private int days;
 
-    private SubscriptionDuration subscriptionDuration;
+    private int hours;
+
+    private int minutes;
+
 
 
 }

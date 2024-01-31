@@ -33,16 +33,18 @@ public class ForgetPasswordServiceImpl implements ForgetPasswordService {
 
         if (user == null) {
             throw new NotFoundException("User not found");
+        }else{
+            // Generate a unique OTP
+            String otp = genrateOtp();
+
+            // Store the OTP in the map with the email as the key
+            emailOtpMap.put(userEmail, otp);
+
+            // Send an email with the OTP
+            sendOtpEmail(userEmail, otp);
         }
 
-        // Generate a unique OTP
-        String otp = genrateOtp();
 
-        // Store the OTP in the map with the email as the key
-        emailOtpMap.put(userEmail, otp);
-
-        // Send an email with the OTP
-        sendOtpEmail(userEmail, otp);
     }
 
     @Override
@@ -53,22 +55,24 @@ public class ForgetPasswordServiceImpl implements ForgetPasswordService {
         if (storedOtp == null || !storedOtp.equals(otp)) {
             throw new NotFoundException("Invalid OTP");
 
+        }else{
+            // Remove the OTP from the map to ensure it can be used only once
+            emailOtpMap.remove(userEmail);
+
+            // Update the password
+            User byEmail = userRepository.findByEmail(userEmail);
+
+            if (byEmail == null) {
+                throw new NotFoundException("User not found");
+            }
+
+            byEmail.setPassword(newPassword);
+
+            // Save the updated user
+            userRepository.save(byEmail);
         }
 
-        // Remove the OTP from the map to ensure it can be used only once
-        emailOtpMap.remove(userEmail);
 
-        // Update the password
-        User byEmail = userRepository.findByEmail(userEmail);
-
-        if (byEmail == null) {
-            throw new NotFoundException("User not found");
-        }
-
-        byEmail.setPassword(newPassword);
-
-        // Save the updated user
-        userRepository.save(byEmail);
     }
 
     private void sendOtpEmail(String userEmail, String otp) {

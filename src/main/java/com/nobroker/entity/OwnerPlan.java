@@ -23,19 +23,17 @@ public class OwnerPlan {
 
     private boolean subscriptionActive;
 
-    @CreationTimestamp
+
     @Column(name = "subscription_active_date")
     private LocalDateTime subscriptionActiveDate;
 
+    @Column(name = "subscription_expiration_date")
     private LocalDateTime subscriptionExpirationDate;
 
-    @Embedded
-    private SubscriptionDuration subscriptionDuration;
+    private int days;
 
-    public void reduceRemainingTime() {
-        if (subscriptionDuration != null) {
-            subscriptionDuration.reduceByOneMinute();
-        }
-    }
+    private int hours;
+
+    private int minutes;
 
 }
